@@ -159,6 +159,7 @@ public class ShowDataView extends Activity implements CustomButton.CustomButtonP
 
         Intent intent = new Intent(this,SettingsView.class);
         intent.putExtra(Aux.INTENT_CODED_STRING, passdata.generateDataString());
+        intent.putExtra(Aux.INTENT_PASSWORD,epasswd);
         startActivity(intent);
         finish();
 
