@@ -23,7 +23,7 @@ void PassData::parseDataFile(const QString &data, QListWidget *lv){
     // Add entries to the list.
     dbentries.clear();
     dbentries = passData.keys();
-    dbentries.sort();
+    dbentries.sort(Qt::CaseInsensitive);
     filterEntries("",lv);
 
 }
@@ -33,11 +33,17 @@ void PassData::filterEntries(const QString &search, QListWidget *lv){
     lv->clear();
 
     //qDebug() << APP << "filterEntries: Dic size" << dbentries.size() << "passData size " << passData.size();
+
+    QFont font(fontName,20);
+
     for (int i = 0; i < dbentries.size(); i++){
         QString entry = dbentries.at(i);
         if (entry.contains(search,Qt::CaseInsensitive) || search.isEmpty()){
             //qDebug() << APP << "filterEntries: Adding entry " << entry;
             QListWidgetItem *item = new QListWidgetItem(dbentries.at(i));
+            item->setFont(font);
+            item->setTextAlignment(Qt::AlignCenter);
+            item->setTextColor(QColor::fromRgb(0, 170, 127));
             lv->addItem(item);
         }
     }
@@ -88,7 +94,7 @@ void PassData::addEntry(const QString &name, const QString &user, const QString 
     if (lv != nullptr){
         dbentries.clear();
         dbentries = passData.keys();
-        dbentries.sort();
+        dbentries.sort(Qt::CaseInsensitive);
         filterEntries("",lv);
     }
 

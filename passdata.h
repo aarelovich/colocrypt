@@ -41,6 +41,10 @@ public:
 
     void clear();
 
+    void setFontName(const QString &fn){ fontName = fn; }
+
+    void deleteEntry(const QString &entry) { passData.remove(entry); dbentries = passData.keys(); dbentries.sort(); }
+
 private:
 
     // The data.
@@ -48,6 +52,8 @@ private:
 
     // The sorted keys.
     QStringList dbentries;
+
+    QString fontName;
 
 };
 

@@ -20,13 +20,43 @@ MainView::MainView(QWidget *parent) :
     // Loading font
     int id = QFontDatabase::addApplicationFont(":/fonts/sansation.ttf");
     theFont = QFontDatabase::applicationFontFamilies(id).at(0);
+    passData.setFontName(theFont);
 
     setButtonStyleSheet(ui->pbLogin);
+    setButtonStyleSheet(ui->pbAddEntry);
+    setButtonStyleSheet(ui->pbCancelEntry);
+    setButtonStyleSheet(ui->pbChangePass);
+    setButtonStyleSheet(ui->pbClearInputFields);
+    setButtonStyleSheet(ui->pbCopyPass);
+    setButtonStyleSheet(ui->pbCopyUser);
+    setButtonStyleSheet(ui->pbCreateEntry);
+    setButtonStyleSheet(ui->pbGeneratePassword);
+    setButtonStyleSheet(ui->pbGoBack);
+    setButtonStyleSheet(ui->pbLogOut);
+    setButtonStyleSheet(ui->pbSearch);
+    setButtonStyleSheet(ui->pbVerifyChangePasswd);
+    setButtonStyleSheet(ui->pbDeleteEntry);
+
+    setEditFieldStyle(ui->leChangePass);
+    setEditFieldStyle(ui->leInputEntry);
+    setEditFieldStyle(ui->leInputPasswd);
+    setEditFieldStyle(ui->leInputUser);
+    setEditFieldStyle(ui->leLogin);
+    setEditFieldStyle(ui->lePasswd);
+    setEditFieldStyle(ui->leSearchBox);
+    setEditFieldStyle(ui->leUser);
+
+    setLabelStyle(ui->label);
+    setLabelStyle(ui->label_2);
+    setLabelStyle(ui->label_3);
+    setLabelStyle(ui->label_4);
+
+    ui->comboBox->setStyleSheet("font: 20pt \"Monospace\";\ncolor: rgb(0, 170, 127);");
+    ui->cboxUseSymbols->setStyleSheet("font: 20pt \"Monospace\";\ncolor: rgb(255, 255, 255);\nborder-color: 3px solid rgb(0, 170, 255);");
+
+    this->setStyleSheet("background-color: rgb(0, 0, 0);");
 
     ui->lbTitle->setFont(QFont(theFont,18,QFont::Bold,false));
-
-    // Disable to actually have to type the password.
-    ui->leLogin->setText("bellagorda551");
 }
 
 MainView::~MainView()
@@ -76,6 +106,7 @@ void MainView::on_pbCreateEntry_clicked()
 
 void MainView::on_pbCancelEntry_clicked()
 {
+    on_pbClearInputFields_clicked();
     ui->gbAddEntryView->setVisible(false);
     ui->gbListView->setVisible(true);
 }
@@ -115,7 +146,7 @@ void MainView::on_pbCopyPass_clicked()
 
 void MainView::on_pbSearch_clicked()
 {
-    if (ui->leSearchBox->text().size() >= 3)
+    if ((ui->leSearchBox->text().size() >= 3) || (ui->leSearchBox->text().isEmpty()))
         passData.filterEntries(ui->leSearchBox->text(),ui->lwEntries);
 }
 
@@ -175,12 +206,15 @@ void MainView::on_pbAddEntry_clicked()
     }
 
     passData.addEntry(entry,user,passwd,ui->lwEntries,false);
+    passData.filterEntries("",ui->lwEntries);
 
     QString error = AESCryptIF::encryptData(passData.getData());
 
     if (!error.isEmpty()){
         AESCryptIF::showToast("ERROR: During encryption " + error);
     }
+
+    on_pbCancelEntry_clicked();
 
 }
 
@@ -218,7 +252,41 @@ void MainView::on_pbVerifyChangePasswd_clicked()
 }
 
 void MainView::setButtonStyleSheet(QPushButton *pb){
-    QString styleSheet = "background-color: qlineargradient(spread:pad, x1:0.502, y1:1, x2:0.498, y2:0, stop:0 rgba(87, 178, 102, 255), stop:0.569231 rgba(51, 118, 38, 255), stop:0.98 rgba(0, 0, 0, 255), stop:1 rgba(0, 0, 0, 0));\nfont: 63 18pt \""
+    QString styleSheet = "background-color: qlineargradient(spread:pad, x1:0.502, y1:1, x2:0.498, y2:0, stop:0 rgba(0, 128, 128, 255), stop:1 rgba(30, 30, 30, 255));\nfont: 63 20pt \""
             + theFont + "\";\ncolor: rgb(255, 255, 255);";
     pb->setStyleSheet(styleSheet);
+}
+
+void MainView::setEditFieldStyle(QLineEdit *le){
+    QString style = "background-color: rgb(100,100,100);\nfont: 20pt \"Monospace\";\ncolor: rgb(0, 170, 127);";
+    le->setStyleSheet(style);
+}
+
+void MainView::setLabelStyle(QLabel *l){
+    l->setStyleSheet("font: 20pt \"Monospace\";\ncolor: rgb(255, 255, 255);");
+}
+
+void MainView::on_pbDeleteEntry_clicked()
+{
+    QString entry = ui->leInputEntry->text();
+    if (entry.isEmpty()) return;
+
+    if (passData.entryExists(entry)){
+        int ans = QMessageBox::question(this,"Delete Entry","Are you sure you want to delete \n" + entry + "?",QMessageBox::Yes|QMessageBox::No,QMessageBox::No);
+        if (ans == QMessageBox::No){
+            return;
+        }
+    }
+
+    passData.deleteEntry(entry);
+    passData.filterEntries("",ui->lwEntries);
+
+    QString error = AESCryptIF::encryptData(passData.getData());
+
+    if (!error.isEmpty()){
+        AESCryptIF::showToast("ERROR: During encryption " + error);
+    }
+
+    on_pbCancelEntry_clicked();
+
 }

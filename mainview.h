@@ -55,6 +55,8 @@ private slots:
 
     void on_pbVerifyChangePasswd_clicked();
 
+    void on_pbDeleteEntry_clicked();
+
 private:
     Ui::MainView *ui;
     PassData passData;
@@ -62,6 +64,8 @@ private:
     QString newPassword;
     QString theFont;
     void setButtonStyleSheet(QPushButton *pb);
+    void setEditFieldStyle(QLineEdit *le);
+    void setLabelStyle(QLabel *l);
 
 };
 
