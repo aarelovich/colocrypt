@@ -6,31 +6,48 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QDebug>
+#include <QStringList>
+
+#define APP "COLOCRYPT:"
 
 class PassData
 {
 public:
     PassData();
 
-    // Add all decrypted entries
-    void parseDataFile(const QString &data, QListWidget *lv);
-
-    // Add single entry.
-    bool addEntry(const QString &name, const QString &user, const QString &password, const bool &allowRepeat = true);
-
-    QStringList listEntries() const {return passData.keys();}
-
-    void clear() {passData.clear();}
-
-private:
-
     struct UserPass{
         QString user;
         QString password;
     };
 
+    // Add all decrypted entries
+    void parseDataFile(const QString &data, QListWidget *lv);
+
+    // Filter entries
+    void filterEntries(const QString &search, QListWidget *lv);
+
+    // Add single entry.
+    void addEntry(const QString &name, const QString &user, const QString &password, QListWidget *lv = nullptr, const bool &allowRepeat = true);
+
+    bool entryExists(const QString &name) {return passData.contains(name);}
+
+    QStringList listEntries() const {return passData.keys();}
+
+    UserPass getUserPass(const QString &entry) const;
+
+    static bool validString(const QString &s);
+
+    QString getData() const;
+
+    void clear();
+
+private:
+
     // The data.
     QHash<QString,UserPass> passData;
+
+    // The sorted keys.
+    QStringList dbentries;
 
 };
 

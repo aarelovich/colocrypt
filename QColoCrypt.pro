@@ -17,12 +17,14 @@ SOURCES += main.cpp\
         mainview.cpp \
     aescryptif.cpp \
     passdata.cpp \
-    qsearchedit.cpp
+    qsearchedit.cpp \
+    passwordgenerator.cpp
 
 HEADERS  += mainview.h \
     aescryptif.h \
     passdata.h \
-    qsearchedit.h
+    qsearchedit.h \
+    passwordgenerator.h
 
 FORMS    += mainview.ui
 
@@ -35,4 +37,7 @@ MOBILITY =
 OTHER_FILES += \
     java/AndroidManifest.xml \
     java/src/org/qcolocrypt/AESCrypt.java
+
+RESOURCES += \
+    icons.qrc
 

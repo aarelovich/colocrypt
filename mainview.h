@@ -3,9 +3,12 @@
 
 #include <QMainWindow>
 #include <QDebug>
+#include <QClipboard>
+#include <QMessageBox>
 
 #include "aescryptif.h"
 #include "passdata.h"
+#include "passwordgenerator.h"
 
 namespace Ui {
 class MainView;
@@ -28,10 +31,30 @@ private slots:
 
     void on_pbCancelEntry_clicked();
 
+    void on_lwEntries_itemClicked(QListWidgetItem *item);
+
+    void on_lwEntries_itemDoubleClicked(QListWidgetItem *item);
+
+    void on_pbCopyUser_clicked();
+
+    void on_pbCopyPass_clicked();
+
+    void on_pbSearch_clicked();
+
+    void on_pbClearInputFields_clicked();
+
+    void on_pbChangePass_clicked();
+
+    void on_pbGoBack_clicked();
+
+    void on_pbAddEntry_clicked();
+
+    void on_pbGeneratePassword_clicked();
+
 private:
     Ui::MainView *ui;
-
     PassData passData;
+    PassWordGenerator pgen;
 };
 
 #endif // MAINVIEW_H
