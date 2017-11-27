@@ -51,10 +51,13 @@ private slots:
 
     void on_pbGeneratePassword_clicked();
 
+    void on_pbVerifyChangePasswd_clicked();
+
 private:
     Ui::MainView *ui;
     PassData passData;
     PassWordGenerator pgen;
+    QString newPassword;
 };
 
 #endif // MAINVIEW_H

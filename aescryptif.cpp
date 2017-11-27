@@ -41,23 +41,26 @@ QString AESCryptIF::login(const QString &password_string, bool *loggedIn){
 
 QString AESCryptIF::encryptData(const QString &data, const QString &password) {
 
-    Q_UNUSED(password);
-
-// Getting the data file
-//    QAndroidJniObject mediaDir = QAndroidJniObject::callStaticObjectMethod("android/os/Environment", "getExternalStorageDirectory", "()Ljava/io/File;");
-//    QAndroidJniObject mediaPath = mediaDir.callObjectMethod( "getAbsolutePath", "()Ljava/lang/String;" );
-//    QString path = mediaPath.toString() + "/ccrypt/data.aux";
-//    QAndroidJniObject datafile = QAndroidJniObject::fromString(path);
-//    QAndroidJniObject passobj = QAndroidJniObject::fromString(password);
     QAndroidJniObject thedata = QAndroidJniObject::fromString(data);
 
-//    // Calling the Init and encrypt functions.
-//    QAndroidJniObject ans =
-//            QAndroidJniObject::callStaticObjectMethod("org/qcolocrypt/AESCrypt",
-//                                                      "AESCryptInit",
-//                                                      "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;",
-//                                                      passobj.object<jstring>(),
-//                                                      datafile.object<jstring>());
+    if (!password.isEmpty()){
+
+        // Initializing the AES Engine again.
+        QAndroidJniObject mediaDir = QAndroidJniObject::callStaticObjectMethod("android/os/Environment", "getExternalStorageDirectory", "()Ljava/io/File;");
+        QAndroidJniObject mediaPath = mediaDir.callObjectMethod( "getAbsolutePath", "()Ljava/lang/String;" );
+        QString path = mediaPath.toString() + "/ccrypt/data.aux";
+        QAndroidJniObject datafile = QAndroidJniObject::fromString(path);
+        QAndroidJniObject passobj = QAndroidJniObject::fromString(password);
+
+
+        // Calling the Init and encrypt functions.
+        QAndroidJniObject ans =
+                QAndroidJniObject::callStaticObjectMethod("org/qcolocrypt/AESCrypt",
+                                                          "AESCryptInit",
+                                                          "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;",
+                                                          passobj.object<jstring>(),
+                                                          datafile.object<jstring>());
+    }
 
     QAndroidJniObject ans = QAndroidJniObject::callStaticObjectMethod("org/qcolocrypt/AESCrypt",
                                                     "encrypt",

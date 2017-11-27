@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>MainView</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout_9">
     <item>
@@ -21,6 +24,16 @@
        <string/>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_8">
+       <item>
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600; color:#00ff00; background-color:#b012b2;&quot;&gt;COLOCRYPT&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::RichText</enum>
+         </property>
+        </widget>
+       </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
@@ -87,8 +100,8 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset>
-             <normaloff>:/icons/icons/search.png</normaloff>:/icons/icons/search.png</iconset>
+            <iconset resource="icons.qrc">
+             <normaloff>:/icons/search.png</normaloff>:/icons/search.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -425,7 +438,7 @@
         <widget class="QLineEdit" name="leChangePass"/>
        </item>
        <item>
-        <widget class="QPushButton" name="pbChangePasswd">
+        <widget class="QPushButton" name="pbVerifyChangePasswd">
          <property name="text">
           <string/>
          </property>

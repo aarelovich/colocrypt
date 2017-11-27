@@ -21,7 +21,7 @@ public:
 
     static void showToast(const QString &message, Duration duration = LONG);
 
-    static QString encryptData(const QString &data, const QString &password);
+    static QString encryptData(const QString &data, const QString &password = "");
 
 };
 

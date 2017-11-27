@@ -12,6 +12,7 @@ MainView::MainView(QWidget *parent) :
 
     // Making it a password field
     ui->leLogin->setEchoMode(QLineEdit::Password);
+    ui->leChangePass->setEchoMode(QLineEdit::Password);
 
     // Search when the input box changes.
     connect(ui->leSearchBox,&QSearchEdit::sendFilter,this,&MainView::on_pbSearch_clicked);
@@ -52,8 +53,11 @@ void MainView::on_pbLogOut_clicked()
     ui->lePasswd->clear();
     ui->leSearchBox->clear();
     ui->leInputUser->clear();
+    on_pbClearInputFields_clicked();
+    ui->leLogin->clear();
     ui->gbListView->setVisible(false);
     ui->gbLoginView->setVisible(true);
+    ui->gbChangePassView->setVisible(false);
 }
 
 void MainView::on_pbCreateEntry_clicked()
@@ -118,12 +122,16 @@ void MainView::on_pbChangePass_clicked()
 {
     ui->gbChangePassView->setVisible(true);
     ui->gbAddEntryView->setVisible(false);
+    newPassword = "";
+    ui->leChangePass->setText("");
+    ui->pbVerifyChangePasswd->setText("ENTER NEW PASSWORD");
 }
 
 void MainView::on_pbGoBack_clicked()
 {
     ui->gbChangePassView->setVisible(false);
     ui->gbAddEntryView->setVisible(true);
+
 }
 
 void MainView::on_pbAddEntry_clicked()
@@ -160,7 +168,7 @@ void MainView::on_pbAddEntry_clicked()
 
     passData.addEntry(entry,user,passwd,ui->lwEntries,false);
 
-    QString error = AESCryptIF::encryptData(passData.getData(),"");
+    QString error = AESCryptIF::encryptData(passData.getData());
 
     if (!error.isEmpty()){
         AESCryptIF::showToast("ERROR: During encryption " + error);
@@ -172,4 +180,31 @@ void MainView::on_pbGeneratePassword_clicked()
 {
     QString passwd = pgen.generatePassword(ui->comboBox->currentIndex() + 4, ui->cboxUseSymbols->isChecked());
     ui->leInputPasswd->setText(passwd);
+}
+
+void MainView::on_pbVerifyChangePasswd_clicked()
+{
+    if (newPassword.isEmpty()){
+        newPassword = ui->leChangePass->text();
+        ui->leChangePass->setText("");
+        ui->pbVerifyChangePasswd->setText("VERIFY PASSWORD");
+    }
+    else{
+        if (newPassword == ui->leChangePass->text()){
+
+            // Re encrypting the data.
+            QString error = AESCryptIF::encryptData(passData.getData(),newPassword);
+            if (!error.isEmpty()){
+                AESCryptIF::showToast("ERROR: During encryption " + error);
+            }
+            // Logging out.
+            on_pbLogOut_clicked();
+
+        }
+        else{
+            newPassword = "";
+            ui->leChangePass->setText("");
+            ui->pbVerifyChangePasswd->setText("ENTER NEW PASSWORD");
+        }
+    }
 }
