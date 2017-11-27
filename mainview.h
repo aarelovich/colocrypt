@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <QClipboard>
 #include <QMessageBox>
+#include <QFontDatabase>
+#include <QPushButton>
 
 #include "aescryptif.h"
 #include "passdata.h"
@@ -58,6 +60,9 @@ private:
     PassData passData;
     PassWordGenerator pgen;
     QString newPassword;
+    QString theFont;
+    void setButtonStyleSheet(QPushButton *pb);
+
 };
 
 #endif // MAINVIEW_H

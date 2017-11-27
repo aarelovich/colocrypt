@@ -17,6 +17,14 @@ MainView::MainView(QWidget *parent) :
     // Search when the input box changes.
     connect(ui->leSearchBox,&QSearchEdit::sendFilter,this,&MainView::on_pbSearch_clicked);
 
+    // Loading font
+    int id = QFontDatabase::addApplicationFont(":/fonts/sansation.ttf");
+    theFont = QFontDatabase::applicationFontFamilies(id).at(0);
+
+    setButtonStyleSheet(ui->pbLogin);
+
+    ui->lbTitle->setFont(QFont(theFont,18,QFont::Bold,false));
+
     // Disable to actually have to type the password.
     ui->leLogin->setText("bellagorda551");
 }
@@ -207,4 +215,10 @@ void MainView::on_pbVerifyChangePasswd_clicked()
             ui->pbVerifyChangePasswd->setText("ENTER NEW PASSWORD");
         }
     }
+}
+
+void MainView::setButtonStyleSheet(QPushButton *pb){
+    QString styleSheet = "background-color: qlineargradient(spread:pad, x1:0.502, y1:1, x2:0.498, y2:0, stop:0 rgba(87, 178, 102, 255), stop:0.569231 rgba(51, 118, 38, 255), stop:0.98 rgba(0, 0, 0, 255), stop:1 rgba(0, 0, 0, 0));\nfont: 63 18pt \""
+            + theFont + "\";\ncolor: rgb(255, 255, 255);";
+    pb->setStyleSheet(styleSheet);
 }

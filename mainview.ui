@@ -25,7 +25,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_8">
        <item>
-        <widget class="QLabel" name="label_5">
+        <widget class="QLabel" name="lbTitle">
          <property name="styleSheet">
           <string notr="true">background-color: rgb(0, 255, 0);</string>
          </property>
@@ -57,6 +57,12 @@
          </item>
          <item>
           <widget class="QPushButton" name="pbLogin">
+           <property name="styleSheet">
+            <string notr="true">background-color: qlineargradient(spread:pad, x1:0.502, y1:1, x2:0.498, y2:0, stop:0 rgba(87, 178, 102, 255), stop:0.569231 rgba(51, 118, 38, 255), stop:0.98 rgba(0, 0, 0, 255), stop:1 rgba(0, 0, 0, 0));
+font: 63 18pt &quot;FreeSans&quot;;
+color: rgb(255, 255, 255);
+font: 10pt &quot;Sans Serif&quot;;</string>
+           </property>
            <property name="text">
             <string>LOGIN</string>
            </property>

@@ -4,5 +4,7 @@
         <file>icons/colocrypt.png</file>
         <file>icons/search.png</file>
         <file>icons/back.png</file>
+        <file>fonts/sansation.ttf</file>
+        <file>fonts/souses.otf</file>
     </qresource>
 </RCC>
