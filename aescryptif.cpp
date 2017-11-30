@@ -6,7 +6,7 @@ AESCryptIF::AESCryptIF()
 }
 
 
-QString AESCryptIF::login(const QString &password_string, bool *loggedIn){
+QString AESCryptIF::login(const QString &password_string, bool *loggedIn, bool *firstTime){
 
     *loggedIn = false;
 
@@ -15,6 +15,15 @@ QString AESCryptIF::login(const QString &password_string, bool *loggedIn){
     QString path = mediaPath.toString() + "/ccrypt/data.aux";
     QAndroidJniObject datafile = QAndroidJniObject::fromString(path);
     QAndroidJniObject passobj = QAndroidJniObject::fromString(password_string);
+
+    // Making sure the file exists.
+    QFile dataFile(path);
+    if (!dataFile.exists()){
+        *firstTime = true;
+        return "";
+    }
+    *firstTime = false;
+
 
     // Calling the Init and decrypt fucntions.
     QAndroidJniObject ans =

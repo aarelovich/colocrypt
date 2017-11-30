@@ -70,12 +70,19 @@ void MainView::on_pbLogin_clicked()
 {
 
     bool loggedIn = false;
-    QString data = AESCryptIF::login(ui->leLogin->text(),&loggedIn);
+    bool firstTime = false;
+    QString data = AESCryptIF::login(ui->leLogin->text(),&loggedIn,&firstTime);
+
+    if (firstTime){
+        ui->gbLoginView->setVisible(false);
+        ui->pbGoBack->setEnabled(false);
+        on_pbChangePass_clicked();
+        return;
+    }
 
     if (loggedIn){
         ui->gbLoginView->setVisible(false);
         ui->gbListView->setVisible(true);
-
         passData.parseDataFile(data,ui->lwEntries);
 
     }
@@ -242,11 +249,15 @@ void MainView::on_pbVerifyChangePasswd_clicked()
             // Logging out.
             on_pbLogOut_clicked();
 
+            //Making sure the go back button is reneabled.
+            ui->pbGoBack->setEnabled(true);
+
         }
         else{
             newPassword = "";
             ui->leChangePass->setText("");
             ui->pbVerifyChangePasswd->setText("ENTER NEW PASSWORD");
+            AESCryptIF::showToast("Passwords do not match. Please try again");
         }
     }
 }

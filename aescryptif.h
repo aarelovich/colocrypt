@@ -4,6 +4,9 @@
 #include <QString>
 #include <QtAndroidExtras/QAndroidJniObject>
 #include <QtAndroid>
+#include <QFile>
+#include <QTextStream>
+
 
 class AESCryptIF
 {
@@ -11,7 +14,7 @@ public:
     AESCryptIF();
 
     // Login.
-    static QString login(const QString &password_string, bool *loggedIn);
+    static QString login(const QString &password_string, bool *loggedIn, bool *firstTime);
 
     // Show a toast with a message
     enum Duration {
